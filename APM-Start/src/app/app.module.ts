@@ -29,8 +29,8 @@ import { RxjsDemoComponent } from './rxjs-demo/rxjs-demo.component';
     HttpClientModule, 
     RouterModule.forRoot([
       {path: 'welcome', component: WelcomeComponent},
-      {path: 'rxjsdemo', component: WelcomeComponent},
-      {path: 'productlist', component: RxjsDemoComponent},
+      {path: 'productlist', component: productListComponent},
+      {path: 'rxjsdemo', component: RxjsDemoComponent},
       {path: 'productdetail/:id', 
       component: ProductDetailsComponent,
       canActivate: [ProductDetailGuard]},
