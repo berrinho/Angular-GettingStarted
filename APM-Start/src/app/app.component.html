@@ -1,8 +1,17 @@
 <div>
-  <h1>
-    Acme Product Management
-  </h1>
-  
 
-  <pm-products></pm-products>
+  <nav class="navbar navbar-expand navbar-light bg-light">
+    <a class="navbar-brand">Acme Product Management</a>
+    <ul class="nav nav-pills">
+      <li><a class='nav-link' routerLink="/welcome" >Home</a></li>
+      <li><a class='nav-link' routerLink="/productlist">Product List</a></li>
+      <li><a class='nav-link' routerLink="/rxjsdemo">RxJS Demo</a></li>
+    </ul>
+  </nav>
+
+  <div class="container">
+  <router-outlet></router-outlet>
+    </div>
+    
+
 </div>

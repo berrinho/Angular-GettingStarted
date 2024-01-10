@@ -1,52 +1,41 @@
 import { Injectable } from "@angular/core";
 import { product } from "./product";
+import { Observable } from "rxjs/internal/Observable";
+import { HttpClient, HttpErrorResponse } from "@angular/common/http";
+import { catchError, tap, throwError } from "rxjs";
 
 @Injectable({
     providedIn: 'root'
 })
 export class ProductService{
-    getProducts() :product[] {
-        return [
-            {
-                "productId": 1,
-                "productName": "Leaf Rake",
-                "productCode": "GDN-0011",
-                "releaseDate": "March 19, 2019",
-                "description": "Leaf rake with 48-inch wooden handle.",
-                "price": 19.95,
-                "starRating": 3.2,
-                "imageUrl": "assets/images/leaf_rake.png"
-              },
-              {
-                "productId": 2,
-                "productName": "Garden Cart",
-                "productCode": "GDN-0023",
-                "releaseDate": "March 18, 2019",
-                "description": "15 gallon capacity rolling garden cart",
-                "price": 32.99,
-                "starRating": 4.2,
-                "imageUrl": "assets/images/garden_cart.png"
-              },
-              {
-                "productId": 10,
-                "productName": "Video Game Controller",
-                "productCode": "GMG-0042",
-                "releaseDate": "October 15, 2020",
-                "description": "Standard two-button video game controller",
-                "price": 35.95,
-                "starRating": 4.6,
-                "imageUrl": "assets/images/xbox-controller.png"
-              },
-              {
-                "productId": 14,
-                "productName": "Wheelbarrow",
-                "productCode": "GMG-0001",
-                "releaseDate": "February 16, 1974",
-                "description": "Metal Wheelbarrow",
-                "price": 65.00,
-                "starRating": 2.1,
-                "imageUrl": "assets/images/garden_cart.png"
-              }
-        ];
+
+    productUrl:string = 'api/products/products.json';
+
+    constructor(private httpClient:HttpClient){};
+
+    getProducts() :Observable<product[]> {
+        return this.httpClient.get<product[]>(this.productUrl)
+        .pipe(
+          tap(data => console.log('All: ', JSON.stringify(data))),
+          catchError(this.handleError)
+        );
     }
+
+    private handleError(err: HttpErrorResponse): Observable<never> {
+      // in a real world app, we may send the server to some remote logging infrastructure
+      // instead of just logging it to the console
+      let errorMessage = '';
+      if (err.error instanceof ErrorEvent) {
+        // A client-side or network error occurred. Handle it accordingly.
+        errorMessage = `An error occurred: ${err.error.message}`;
+      } else {
+        // The backend returned an unsuccessful response code.
+        // The response body may contain clues as to what went wrong,
+        errorMessage = `Server returned code: ${err.status}, error message is: ${err.message}`;
+      }
+      console.error(errorMessage);
+      return throwError(() => errorMessage);
+    }
+
+    
 }
